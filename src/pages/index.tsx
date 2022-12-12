@@ -9,7 +9,13 @@ const Home: NextPage = () => {
 
   const handleSubmit = async (e: FormEvent<EventTarget>) => {
     e.preventDefault();
-    console.log(urlRef.current?.value);
+
+    if (!urlRef || !urlRef.current) return;
+
+    const enteredURL = urlRef.current.value;
+    // const temp = trpc.short.addUrl.useQuery(enteredURL);
+    console.log(enteredURL);
+    const response = await fetch('/api/');
   }
 
   return (
@@ -29,10 +35,10 @@ const Home: NextPage = () => {
             return <p key={idx}>{el.slug}</p>
           }) : <p>Loading..</p>}
         </div>
-        <form action="">
-          <label htmlFor="enter url">U</label>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="enter url">URL:</label>
           <input className="border-gray-50 text-gray-700" type="text" ref={urlRef} />
-          <button onClick={handleSubmit}>Submit</button>
+          <button>Submit</button>
         </form>
 
 
