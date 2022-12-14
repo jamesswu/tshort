@@ -2,10 +2,10 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { type FormEvent, useRef } from "react";
 import { trpc } from "../utils/trpc";
-
+import Link from "next/link";
 const Home: NextPage = () => {
-  const hello = trpc.short.getAll.useQuery();
   const urlRef = useRef<HTMLInputElement>(null);
+  const mutation = trpc.short.addUrl.useMutation();
 
   const handleSubmit = async (e: FormEvent<EventTarget>) => {
     e.preventDefault();
@@ -13,9 +13,7 @@ const Home: NextPage = () => {
     if (!urlRef || !urlRef.current) return;
 
     const enteredURL = urlRef.current.value;
-    // const temp = trpc.short.addUrl.useQuery(enteredURL);
-    console.log(enteredURL);
-    const response = await fetch('/api/');
+    mutation.mutateAsync(enteredURL); 
   }
 
   return (
@@ -30,16 +28,22 @@ const Home: NextPage = () => {
         <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
           Short URL generator
         </h1>
-        <div className="flex w-full items-center justify-center pt-6 text-2xl text-blue-500">
-          {hello.data ? hello.data.map((el,idx) => {
-            return <p key={idx}>{el.slug}</p>
-          }) : <p>Loading..</p>}
-        </div>
         <form onSubmit={handleSubmit}>
           <label htmlFor="enter url">URL:</label>
-          <input className="border-gray-50 text-gray-700" type="text" ref={urlRef} />
-          <button>Submit</button>
+          <input className="bg-gray-200 shadow-inner rounded-lg px-2 mx-2 text-gray-700" type="text" ref={urlRef} />
+          <button 
+            className="bg-blue-500 px-2 py-2 text-white rounded-md"
+            type="submit">ADD URL</button>
         </form>
+        {mutation.isSuccess &&
+          <p>
+            your shortened URL is: 
+              <Link className="text-blue-500 hover:cursor-pointer" href={`${window.location.href}/${mutation.data.slug}`}>
+                {window.location.href}/{mutation.data.slug}
+              </Link>
+          </p>
+        }
+        {mutation.error && <p>Something went wrong! {mutation.error.message}</p>}
 
 
       </main>

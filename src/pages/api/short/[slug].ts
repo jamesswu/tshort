@@ -3,7 +3,6 @@ import { appRouter } from '../../../server/trpc/router/_app';
 import { createContext } from "../../../server/trpc/context";
 import { TRPCError } from "@trpc/server";
 import { getHTTPStatusCodeFromError } from "@trpc/server/http";
-import { string } from "zod";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const ctx = await createContext({req,res});

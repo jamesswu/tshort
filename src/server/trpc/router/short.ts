@@ -5,7 +5,7 @@ import { nanoid } from 'nanoid';
 export const shortRouter = router({
   addUrl: publicProcedure
     .input(z.string())
-    .query(({ctx,input}) => {
+    .mutation(({ctx,input}) => {
       return ctx.prisma.shortLink.create({
         data: {
           url: input,
