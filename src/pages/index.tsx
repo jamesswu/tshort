@@ -38,8 +38,8 @@ const Home: NextPage = () => {
         {mutation.isSuccess &&
           <p>
             your shortened URL is: 
-              <Link className="text-blue-500 hover:cursor-pointer" href={`${window.location.href}/${mutation.data.slug}`}>
-                {window.location.href}/{mutation.data.slug}
+              <Link className="text-blue-500 hover:cursor-pointer" href={`${window.location.href}${mutation.data.slug}`}>
+                {window.location.href}{mutation.data.slug}
               </Link>
           </p>
         }
