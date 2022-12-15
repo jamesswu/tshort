@@ -14,7 +14,7 @@ const Home: NextPage = () => {
     if (!urlRef || !urlRef.current) return;
 
     const enteredURL = urlRef.current.value;
-    mutation.mutate(enteredURL); 
+    await mutation.mutateAsync(enteredURL); 
   }
 
   return (
