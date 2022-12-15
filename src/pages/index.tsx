@@ -3,6 +3,7 @@ import Head from "next/head";
 import { type FormEvent, useRef } from "react";
 import { trpc } from "../utils/trpc";
 import Link from "next/link";
+
 const Home: NextPage = () => {
   const urlRef = useRef<HTMLInputElement>(null);
   const mutation = trpc.short.addUrl.useMutation();
@@ -13,7 +14,7 @@ const Home: NextPage = () => {
     if (!urlRef || !urlRef.current) return;
 
     const enteredURL = urlRef.current.value;
-    mutation.mutateAsync(enteredURL); 
+    mutation.mutate(enteredURL); 
   }
 
   return (
@@ -37,7 +38,7 @@ const Home: NextPage = () => {
         </form>
         {mutation.isSuccess &&
           <p>
-            your shortened URL is: 
+            your shortened URL is:
               <Link className="text-blue-500 hover:cursor-pointer" href={`${window.location.href}${mutation.data.slug}`}>
                 {window.location.href}{mutation.data.slug}
               </Link>
